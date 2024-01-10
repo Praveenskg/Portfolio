@@ -1,7 +1,10 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+
+const URL = "http://localhost:5000/api/auth/login";
 
 function Login() {
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState({
@@ -45,8 +48,28 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.table(user);
-      // Continue with form submission or API call
+      try {
+        const response = await fetch(URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        });
+        console.log("Login", response);
+        if (response.ok) {
+          alert("Login successFull");
+          setUser({
+            email: "",
+            password: "",
+          });
+          navigate("/");
+        } else {
+          alert("Invalid Credential");
+        }
+      } catch (error) {
+        console.log("Login", error);
+      }
     }
   };
 
