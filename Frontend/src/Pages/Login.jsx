@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-
+import { useAuth } from "../store/auth";
 const URL = "http://localhost:5000/api/auth/login";
 
 function Login() {
   const navigate = useNavigate();
+  const { StoreToken } = useAuth();
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState({
@@ -58,6 +59,8 @@ function Login() {
         });
         console.log("Login", response);
         if (response.ok) {
+          const res_data = await response.json();
+          StoreToken(res_data.data.token);
           alert("Login successFull");
           setUser({
             email: "",
