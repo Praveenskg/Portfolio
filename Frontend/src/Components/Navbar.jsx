@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../store/auth";
 
 const Navbar = () => {
+  const { Logout, isLoggedIn } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
@@ -29,10 +32,6 @@ const Navbar = () => {
       name: "Projects",
       to: "/projects",
     },
-    {
-      name: "Register",
-      to: "/register",
-    },
   ];
 
   return (
@@ -47,7 +46,6 @@ const Navbar = () => {
               Praveen<span className="text-sky-500"> Singh</span>
             </span>
           </NavLink>
-
           <div className="hidden md:flex items-center space-x-4">
             <ul className="inline-flex space-x-8 ">
               {menuItems.map((item) => (
@@ -67,16 +65,45 @@ const Navbar = () => {
                 </li>
               ))}
             </ul>
-          </div>
-          <div className="hidden lg:block">
-            <NavLink to="/login">
+
+            {isLoggedIn ? (
               <button
                 type="button"
                 className="rounded-md bg-sky-500 px-3 py-2 text-base font-semibold text-white shadow-sm hover:bg-sky-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                onClick={() => {
+                  Logout();
+                  navigate("/login");
+                }}
               >
-                Login
+                Logout
               </button>
-            </NavLink>
+            ) : (
+              <>
+                <NavLink
+                  to="register"
+                  style={({ isActive }) => {
+                    return {
+                      fontWeight: isActive ? "bold" : "",
+                      color: isActive ? "red" : "white",
+                    };
+                  }}
+                  className="  px-2 py-1"
+                >
+                  Register
+                </NavLink>
+
+                <div className="hidden lg:block">
+                  <NavLink to="/login">
+                    <button
+                      type="button"
+                      className="rounded-md bg-sky-500 px-3 py-2 text-base font-semibold text-white shadow-sm hover:bg-sky-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                    >
+                      Login
+                    </button>
+                  </NavLink>
+                </div>
+              </>
+            )}
           </div>
           <div className="md:hidden">
             <button

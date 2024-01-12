@@ -1,14 +1,24 @@
-import { createContext, useContext } from "react";
-
+import { createContext, useContext, useState } from "react";
+import { Navigate } from "react-router-dom";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const [token, setToken] = useState(() => localStorage.getItem("token"));
+
   const StoreToken = (serverToken) => {
-    return localStorage.setItem("token", serverToken);
+    setToken(serverToken);
+    localStorage.setItem("token", serverToken);
   };
 
+  const Logout = () => {
+    setToken("");
+    localStorage.removeItem("token");
+  };
+
+  const isLoggedIn = !!token;
+
   return (
-    <AuthContext.Provider value={{ StoreToken }}>
+    <AuthContext.Provider value={{ StoreToken, Logout, isLoggedIn }}>
       {children}
     </AuthContext.Provider>
   );
