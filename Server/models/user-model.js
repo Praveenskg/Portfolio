@@ -23,6 +23,16 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    required: true,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+    required: true,
+  },
 });
 // Secure Password Using Bcrypt Pre Method
 userSchema.pre("save", async function (next) {
@@ -37,6 +47,12 @@ userSchema.pre("save", async function (next) {
   } catch (error) {
     next(error);
   }
+  const currentDate = new Date();
+  user.updatedAt = currentDate;
+  if (!user.createdAt) {
+    user.createdAt = currentDate;
+  }
+  next();
 });
 
 // Json Web Token
