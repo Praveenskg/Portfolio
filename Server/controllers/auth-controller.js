@@ -71,4 +71,13 @@ const Login = async (req, res) => {
   }
 };
 
-export default { Home, Register, Login };
+const user = async (req, res) => {
+  try {
+    const userData = req.user;
+    res.status(200).json({ msg: userData });
+  } catch (error) {
+    console.log(`Error From user router ${error}`);
+  }
+};
+
+export default { Home, Register, Login, user };
