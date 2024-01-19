@@ -1,5 +1,4 @@
 import React from "react";
-import contactImg from "../assets/contact-img.png";
 import "animate.css/animate.min.css";
 
 const Contact = () => {
@@ -7,7 +6,7 @@ const Contact = () => {
     <>
       <section className="bg-white dark:bg-gray-800 capitalize " id="contact">
         <div className="py-8 lg:py-5 px-4 mx-auto max-w-screen-md">
-          <h2 className="text-4xl font-bold mb-5 border-b-[5px] w-[200px] mx-auto border-indigo-600 pb-2">
+          <h2 className="text-3xl font-bold mb-5 border-b-[5px] w-[200px] mx-auto border-indigo-600 pb-2">
             Contact Us
           </h2>
           <p className="mb-4 lg:mb-8 font-light text-center text-gray-500 dark:text-gray-400 sm:text-xl">

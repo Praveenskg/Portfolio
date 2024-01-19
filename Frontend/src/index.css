@@ -11,7 +11,3 @@ h1 {
 html {
   scroll-behavior: smooth;
 }
-body {
-  @apply text-lg;
-}
-  
