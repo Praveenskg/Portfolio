@@ -2,10 +2,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Navbar from "./Components/Navbar";
 import Home from "./Pages/Home";
-import Login from "./Pages/Login";
-import Error from "./Pages/Error";
+import Login from "./Components/Login";
 import Footer from "./Components/Footer";
-import Register from "./Pages/Register";
+import Register from "./Components/Register";
 const App = () => {
   return (
     <>
@@ -15,9 +14,6 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/contact" element={<Login />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="*" element={<Error />} />
         </Routes>
         <Footer />
       </BrowserRouter>

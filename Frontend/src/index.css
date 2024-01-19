@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+h1 {
+  font-family: "Pacifico", cursive;
+  line-height: 1.5 !important;
+}
+.bg-accent {
+  background: #7477ff;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  @apply text-lg;
+}
+  
