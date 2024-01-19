@@ -17,20 +17,17 @@ const Navbar = () => {
 
   const menuItems = [
     {
-      name: "Home",
-      to: "/",
-    },
-    {
       name: "About",
-      to: "/about",
+      href: "/#about",
+    },
+
+    {
+      name: "Projects",
+      href: "/#projects",
     },
     {
       name: "Contact",
-      to: "/contact",
-    },
-    {
-      name: "Projects",
-      to: "/projects",
+      href: "/#contact",
     },
   ];
 
@@ -43,25 +40,16 @@ const Navbar = () => {
             className="text-gray-800 dark:text-white text-3xl font-bold"
           >
             <span className="text-2xl pl-8 sm:pl-0">
-              Praveen<span className="text-sky-500"> Singh</span>
+              Praveen<span className="text-indigo-600"> Singh</span>
             </span>
           </NavLink>
           <div className="hidden md:flex items-center space-x-4">
             <ul className="inline-flex space-x-8 ">
               {menuItems.map((item) => (
                 <li key={item.name}>
-                  <NavLink
-                    to={item.to}
-                    style={({ isActive }) => {
-                      return {
-                        fontWeight: isActive ? "bold" : "",
-                        color: isActive ? "red" : "white",
-                      };
-                    }}
-                    className="  px-2 py-1"
-                  >
+                  <a href={item.href} className="  px-2 py-1">
                     {item.name}
-                  </NavLink>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -69,7 +57,7 @@ const Navbar = () => {
             {isLoggedIn ? (
               <button
                 type="button"
-                className="rounded-md bg-sky-500 px-3 py-2 text-base font-semibold text-white shadow-sm hover:bg-sky-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                className="rounded-md bg-indigo-600 px-3 py-2 text-base font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                 onClick={() => {
                   Logout();
                   navigate("/login");
@@ -79,24 +67,11 @@ const Navbar = () => {
               </button>
             ) : (
               <>
-                <NavLink
-                  to="register"
-                  style={({ isActive }) => {
-                    return {
-                      fontWeight: isActive ? "bold" : "",
-                      color: isActive ? "red" : "white",
-                    };
-                  }}
-                  className="  px-2 py-1"
-                >
-                  Register
-                </NavLink>
-
                 <div className="hidden lg:block">
                   <NavLink to="/login">
                     <button
                       type="button"
-                      className="rounded-md bg-sky-500 px-3 py-2 text-base font-semibold text-white shadow-sm hover:bg-sky-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                      className="rounded-md bg-indigo-600 px-3 py-2 text-base font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                     >
                       Login
                     </button>
@@ -145,27 +120,36 @@ const Navbar = () => {
           </div>
 
           {isOpen && (
-            <div className="md:hidden absolute top-16 left-0 bg-gray-200 dark:bg-gray-900 shadow-md w-full text-center py-4  animate__animated animate__fadeIn">
+            <div className="md:hidden fixed top-0 left-0 w-full h-full bg-gray-200 dark:bg-gray-900 text-center py-4  animate__animated animate__fadeIn ">
               <button
                 onClick={closeNavbar}
-                className="text-gray-800 dark:text-white focus:outline-none"
-              ></button>
+                className="text-gray-800 dark:text-white absolute top-4 right-4 focus:outline-none"
+              >
+                <svg
+                  className="h-6 w-6 text-red-500 dark:text-red-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  ></path>
+                </svg>
+              </button>
               <ul>
                 {menuItems.map((item) => (
                   <li key={item.name}>
-                    <NavLink
-                      to={item.to}
-                      style={({ isActive }) => {
-                        return {
-                          fontWeight: isActive ? "bold" : "",
-                          color: isActive ? "red" : "white",
-                        };
-                      }}
+                    <a
+                      href={item.href}
                       onClick={closeNavbar}
                       className="block py-2 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-700 transition duration-300 "
                     >
                       {item.name}
-                    </NavLink>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -173,7 +157,7 @@ const Navbar = () => {
                 <button
                   onClick={closeNavbar}
                   type="button"
-                  className="mt-4 w-4/5 rounded-md bg-sky-500 px-5 py-2 text-base font-semibold text-white shadow-sm hover:bg-rose-500 "
+                  className="mt-4 w-4/5 rounded-md bg-indigo-600 px-5 py-2 text-base font-semibold text-white shadow-sm hover:bg-rose-500 "
                 >
                   Login
                 </button>
