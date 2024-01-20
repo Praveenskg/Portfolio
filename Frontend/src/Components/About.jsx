@@ -1,5 +1,5 @@
 import React from "react";
-import AboutImg from "../assets/about-img.png";
+import AboutImg from "../assets/about.png";
 import "animate.css";
 
 const About = () => {

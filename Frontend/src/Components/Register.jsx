@@ -64,11 +64,13 @@ function Register() {
           },
           body: JSON.stringify(user),
         });
+        const res_data = await response.json();
         if (response.ok) {
-          const res_data = await response.json();
           StoreToken(res_data.data.token);
           setUser({ username: "", email: "", phone: "", password: "" });
           navigate("/login");
+        } else {
+          alert("not a valid registration");
         }
       } catch (error) {
         console.log("Register", error);

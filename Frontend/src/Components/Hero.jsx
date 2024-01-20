@@ -1,5 +1,5 @@
 import "animate.css/animate.min.css";
-import HeroImg from "../assets/hero-img.png";
+import HeroImg from "../assets/hero.png";
 const Hero = () => {
   return (
     <>
