@@ -7,7 +7,6 @@ const URL = "http://localhost:5000/api/auth/register";
 function Register() {
   const navigate = useNavigate();
   const { StoreToken } = useAuth();
-  const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState({
     username: "",
@@ -30,51 +29,26 @@ function Register() {
     });
   };
 
-  const validateForm = () => {
-    let errors = {};
-
-    if (user.phone.length < 10) {
-      errors.phone = "Mobile number should be at least 10 digits.";
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(user.email)) {
-      errors.email = "Invalid email address.";
-    }
-
-    const passwordRegex =
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
-    if (!passwordRegex.test(user.password)) {
-      errors.password =
-        "Password should be at least 6 characters & One Special Characters";
-    }
-
-    setErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      try {
-        const response = await fetch(URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(user),
-        });
-        const res_data = await response.json();
-        if (response.ok) {
-          StoreToken(res_data.data.token);
-          setUser({ username: "", email: "", phone: "", password: "" });
-          navigate("/login");
-        } else {
-          alert("not a valid registration");
-        }
-      } catch (error) {
-        console.log("Register", error);
+    try {
+      const response = await fetch(URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+      const res_data = await response.json();
+      if (response.ok) {
+        StoreToken(res_data.data.token);
+        setUser({ username: "", email: "", phone: "", password: "" });
+        navigate("/login");
+      } else {
+        alert(res_data.extraDetails ? res_data.extraDetails : res_data.message);
       }
+    } catch (error) {
+      console.log("Register", error);
     }
   };
 
@@ -83,7 +57,7 @@ function Register() {
       <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
         <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
           <h2 className="text-center text-2xl font-bold leading-tight ">
-            Sign up to create account
+            Sign up to create an account
           </h2>
           <p className="mt-2 text-center text-base text-white">
             Already have an account?{" "}
@@ -128,9 +102,6 @@ function Register() {
                     id="phone"
                     onChange={handleInput}
                   ></input>
-                  {errors.phone && (
-                    <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
-                  )}
                 </div>
               </div>
               <div>
@@ -148,9 +119,6 @@ function Register() {
                     id="email"
                     onChange={handleInput}
                   ></input>
-                  {errors.email && (
-                    <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-                  )}
                 </div>
               </div>
               <div>
@@ -171,11 +139,6 @@ function Register() {
                     id="password"
                     onChange={handleInput}
                   />
-                  {errors.password && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.password}
-                    </p>
-                  )}
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
                     <button
                       type="button"

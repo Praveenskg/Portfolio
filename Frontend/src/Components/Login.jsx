@@ -6,7 +6,6 @@ const URL = "http://localhost:5000/api/auth/login";
 function Login() {
   const navigate = useNavigate();
   const { StoreToken } = useAuth();
-  const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState({
     email: "",
@@ -27,52 +26,32 @@ function Login() {
     });
   };
 
-  const validateForm = () => {
-    let errors = {};
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(user.email)) {
-      errors.email = "Invalid email address.";
-    }
-
-    const passwordRegex =
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
-    if (!passwordRegex.test(user.password)) {
-      errors.password =
-        "Password should be at least 6 characters & One Special Characters";
-    }
-
-    setErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      try {
-        const response = await fetch(URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(user),
+    try {
+      const response = await fetch(URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+
+      console.log("Login", response);
+      const res_data = await response.json();
+      if (response.ok) {
+        StoreToken(res_data.data.token);
+        alert("Login successFull");
+        setUser({
+          email: "",
+          password: "",
         });
-        console.log("Login", response);
-        if (response.ok) {
-          const res_data = await response.json();
-          StoreToken(res_data.data.token);
-          alert("Login successFull");
-          setUser({
-            email: "",
-            password: "",
-          });
-          navigate("/");
-        } else {
-          alert("Invalid Credential");
-        }
-      } catch (error) {
-        console.log("Login", error);
+        navigate("/");
+      } else {
+        alert(res_data.extraDetails ? res_data.extraDetails : res_data.message);
       }
+    } catch (error) {
+      console.log("Login", error);
     }
   };
 
@@ -109,9 +88,6 @@ function Login() {
                     id="email"
                     onChange={handleInput}
                   ></input>
-                  {errors.email && (
-                    <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-                  )}
                 </div>
               </div>
               <div>
@@ -132,11 +108,6 @@ function Login() {
                     id="password"
                     onChange={handleInput}
                   />
-                  {errors.password && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.password}
-                    </p>
-                  )}
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
                     <button
                       type="button"
