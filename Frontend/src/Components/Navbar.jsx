@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../store/auth";
 
 const Navbar = () => {
   const { Logout, isLoggedIn } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
@@ -20,7 +21,6 @@ const Navbar = () => {
       name: "About",
       href: "/#about",
     },
-
     {
       name: "Projects",
       href: "/#projects",
@@ -30,6 +30,8 @@ const Navbar = () => {
       href: "/#contact",
     },
   ];
+
+  const isLoginRoute = location.pathname === "/login";
 
   return (
     <>
@@ -54,20 +56,20 @@ const Navbar = () => {
               ))}
             </ul>
 
-            {isLoggedIn ? (
-              <button
-                type="button"
-                className="rounded-md bg-indigo-600 px-3 py-2 text-base font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                onClick={() => {
-                  Logout();
-                  navigate("/login");
-                }}
-              >
-                Logout
-              </button>
-            ) : (
-              <>
-                <div className="hidden lg:block">
+            {!isLoginRoute && (
+              <div className=" lg:block">
+                {isLoggedIn ? (
+                  <button
+                    type="button"
+                    className="rounded-md bg-indigo-600 px-3 py-2 text-base font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                    onClick={() => {
+                      Logout();
+                      navigate("/login");
+                    }}
+                  >
+                    Logout
+                  </button>
+                ) : (
                   <NavLink to="/login">
                     <button
                       type="button"
@@ -76,8 +78,8 @@ const Navbar = () => {
                       Login
                     </button>
                   </NavLink>
-                </div>
-              </>
+                )}
+              </div>
             )}
           </div>
           <div className="md:hidden">
@@ -153,15 +155,33 @@ const Navbar = () => {
                   </li>
                 ))}
               </ul>
-              <NavLink to="/login">
-                <button
-                  onClick={closeNavbar}
-                  type="button"
-                  className="mt-4 w-4/5 rounded-md bg-indigo-600 px-5 py-2 text-base font-semibold text-white shadow-sm hover:bg-rose-500 "
-                >
-                  Login
-                </button>
-              </NavLink>
+              {!isLoginRoute && (
+                <div>
+                  {isLoggedIn ? (
+                    <button
+                      type="button"
+                      className="mt-4 w-4/5 rounded-md bg-indigo-600 px-5 py-2 text-base font-semibold text-white shadow-sm hover:bg-rose-500"
+                      onClick={() => {
+                        Logout();
+                        closeNavbar();
+                        navigate("/login");
+                      }}
+                    >
+                      Logout
+                    </button>
+                  ) : (
+                    <NavLink to="/login">
+                      <button
+                        onClick={closeNavbar}
+                        type="button"
+                        className="mt-4 w-4/5 rounded-md bg-indigo-600 px-5 py-2 text-base font-semibold text-white shadow-sm hover:bg-rose-500 "
+                      >
+                        Login
+                      </button>
+                    </NavLink>
+                  )}
+                </div>
+              )}
             </div>
           )}
         </div>
