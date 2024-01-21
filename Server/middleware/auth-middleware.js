@@ -5,7 +5,7 @@ const authMiddleware = async (req, res, next) => {
   if (!token) {
     return res
       .status(401)
-      .json({ msg: " Unauthorized HTTP , Token not Provided" });
+      .json({ message: " Unauthorized HTTP , Token not Provided" });
   }
   const jwtToken = token.replace("Bearer", "").trim();
   console.log("Token from auth middleware ", jwtToken);

@@ -22,7 +22,7 @@ const Register = async (req, res) => {
     const { username, email, phone, password } = req.body;
     const userExist = await User.findOne({ email: email });
     if (userExist) {
-      return res.status(400).json({ msg: "Email Already Exist" });
+      return res.status(400).json({ message: "Email Already Exist" });
     }
     const userCreated = await User.create({ username, email, phone, password });
     res.status(201).json({
@@ -36,7 +36,7 @@ const Register = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .send({ msg: "Internal Server Error", error: error.message });
+      .send({ message: "Internal Server Error", error: error.message });
   }
 };
 
@@ -45,8 +45,9 @@ const Login = async (req, res) => {
     const { email, password } = req.body;
     const userExist = await User.findOne({ email });
     if (!userExist) {
-      return res.status(400).json({ massage: "Invalid Credentials" });
+      return res.status(400).json({ message: "Invalid Credentials" });
     }
+
     const isPasswordValid = await bcrypt.compare(password, userExist.password);
     if (isPasswordValid) {
       res.status(200).json({
@@ -60,14 +61,14 @@ const Login = async (req, res) => {
     } else {
       res.status(401).json({
         success: false,
-        message: "Invalid Email Or Password",
+        message: "Password Incorrect",
       });
     }
   } catch (error) {
     console.error(error);
     res
       .status(500)
-      .send({ msg: "Internal Server Error", error: error.message });
+      .send({ message: "Internal Server Error", error: error.message });
   }
 };
 
