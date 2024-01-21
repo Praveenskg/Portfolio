@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "animate.css/animate.min.css";
 import { useAuth } from "../store/auth";
+import { toast } from "react-toastify";
 
 const defaultContact = {
   username: "",
@@ -43,10 +44,10 @@ const Contact = () => {
       });
       if (response.ok) {
         setContact(defaultContact);
-        alert("message send successfully");
+        toast.success("message send successfully");
       }
     } catch (error) {
-      alert("message not send");
+      toast.error("message not send");
       console.log(error);
     }
   };

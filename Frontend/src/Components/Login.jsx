@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../store/auth";
+import { toast } from "react-toastify";
 const URL = "http://localhost:5000/api/auth/login";
 
 function Login() {
@@ -41,14 +42,16 @@ function Login() {
       const res_data = await response.json();
       if (response.ok) {
         StoreToken(res_data.data.token);
-        alert("Login successFull");
+        toast.success("Login successful");
         setUser({
           email: "",
           password: "",
         });
         navigate("/");
       } else {
-        alert(res_data.extraDetails ? res_data.extraDetails : res_data.message);
+        toast.error(
+          res_data.extraDetails ? res_data.extraDetails : res_data.message
+        );
       }
     } catch (error) {
       console.log("Login", error);
