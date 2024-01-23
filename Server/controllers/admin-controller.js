@@ -25,4 +25,23 @@ const getContact = async (req, res, next) => {
   }
 };
 
-export default { getAllUsers, getContact };
+const deleteUserById = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    await User.deleteOne({ _id: id });
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    next();
+  }
+};
+const getUserById = async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    const data = await User.findOne({ _id: id }, { password: 0 });
+    return res.status(200).json(data);
+  } catch (error) {
+    next(error);
+  }
+};
+export default { getAllUsers, getContact, deleteUserById, getUserById };
