@@ -37,11 +37,32 @@ const deleteUserById = async (req, res, next) => {
 };
 const getUserById = async (req, res, next) => {
   try {
-    const userId = req.params.id;
+    const id = req.params.id;
     const data = await User.findOne({ _id: id }, { password: 0 });
     return res.status(200).json(data);
   } catch (error) {
     next(error);
   }
 };
-export default { getAllUsers, getContact, deleteUserById, getUserById };
+const updateUserById = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const updatedUserData = req.body;
+    const updateData = await User.updateOne(
+      { _id: id },
+      {
+        $set: updatedUserData,
+      }
+    );
+    return res.status(200).json(updateData);
+  } catch (error) {
+    next(error);
+  }
+};
+export default {
+  getAllUsers,
+  getContact,
+  deleteUserById,
+  getUserById,
+  updateUserById,
+};
