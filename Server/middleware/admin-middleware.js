@@ -12,6 +12,8 @@ const adminMiddleware = async (req, res, next) => {
 
   const jwtToken = token.replace("Bearer ", "").trim();
 
+  console.log("Received Token", token);
+
   try {
     const isVerified = jwt.verify(jwtToken, process.env.JWT_SECRETE_KEY);
 
@@ -33,7 +35,9 @@ const adminMiddleware = async (req, res, next) => {
     next();
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res
+      .status(500)
+      .json({ error: "Internal Server Error From Admin Middleware" });
   }
 };
 
