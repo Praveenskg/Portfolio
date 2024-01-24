@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../store/auth";
-
+import { toast } from "react-toastify";
 const Navbar = () => {
   const { Logout, isLoggedIn } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
@@ -33,6 +33,14 @@ const Navbar = () => {
 
   const isLoginRoute = location.pathname === "/login";
 
+  const handleLogout = async () => {
+    toast.success("Logout successful");
+    setTimeout(() => {
+      Logout();
+      navigate("/login");
+    }, 1000);
+  };
+
   return (
     <>
       <nav className="bg-white dark:bg-gray-900 shadow-md p-4  dark:text-white">
@@ -62,10 +70,7 @@ const Navbar = () => {
                   <button
                     type="button"
                     className="rounded-md bg-indigo-600 px-3 py-2 text-base font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                    onClick={() => {
-                      Logout();
-                      navigate("/login");
-                    }}
+                    onClick={handleLogout}
                   >
                     Logout
                   </button>
