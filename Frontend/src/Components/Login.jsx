@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import { useAuth } from "../store/auth";
 import { toast } from "react-toastify";
 import { FaEye } from "react-icons/fa6";
@@ -8,10 +8,9 @@ import { FaEyeSlash } from "react-icons/fa6";
 const URL = "http://localhost:5000/api/auth/login";
 
 function Login() {
-  const navigate = useNavigate();
-  const { StoreToken } = useAuth();
+  const { StoreToken, user } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
-  const [user, setUser] = useState({
+  const [userData, setUserData] = useState({
     email: "",
     password: "",
   });
@@ -24,8 +23,8 @@ function Login() {
     let name = e.target.name;
     let value = e.target.value;
 
-    setUser({
-      ...user,
+    setUserData({
+      ...userData,
       [name]: value,
     });
   };
@@ -38,19 +37,23 @@ function Login() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(user),
+        body: JSON.stringify(userData),
       });
 
-      console.log("Login", response);
       const res_data = await response.json();
       if (response.ok) {
         StoreToken(res_data.data.token);
         toast.success("Login successful");
-        setUser({
+        console.log("User after login:", user);
+        setUserData({
           email: "",
           password: "",
         });
-        navigate("/");
+        if (user.isAdmin === true) {
+          window.location.href = "/admin";
+        } else {
+          window.location.href = "/";
+        }
       } else {
         toast.error(
           res_data.extraDetails ? res_data.extraDetails : res_data.message
@@ -90,7 +93,7 @@ function Login() {
                     required
                     name="email"
                     placeholder="Email"
-                    value={user.email}
+                    value={userData.email}
                     id="email"
                     onChange={handleInput}
                   ></input>
@@ -109,7 +112,7 @@ function Login() {
                     required
                     name="password"
                     autoComplete="off"
-                    value={user.password}
+                    value={userData.password}
                     placeholder="Password"
                     id="password"
                     onChange={handleInput}
