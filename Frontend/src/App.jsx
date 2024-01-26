@@ -4,11 +4,13 @@ import Home from "./Pages/Home";
 import Login from "./Components/Login";
 import Footer from "./Components/Footer";
 import Register from "./Components/Register";
-import Admin from "./Components/Admin/Admin";
-import AdminContacts from "./Components/Admin/AdminContacts";
-import AdminUsers from "./Components/Admin/AdminUsers";
-import AdminUpdate from "./Components/Admin/AdminUpdate";
-import Profile from "./Components/Admin/Profile";
+import AdminContacts from "./Admin/AdminContacts";
+import AdminUsers from "./Admin/AdminUsers";
+import AdminUpdate from "./Admin/AdminUpdate";
+import Profile from "./Admin/Profile";
+import Admin from "./Admin/Admin";
+import Dashboard from "./Admin/Dashboard";
+
 const App = () => {
   return (
     <>
@@ -19,6 +21,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/admin" element={<Admin />}>
+            <Route path="dashboard" element={<Dashboard />} />
             <Route path="contacts" element={<AdminContacts />} />
             <Route path="users" element={<AdminUsers />} />
             <Route path="profile" element={<Profile />} />
