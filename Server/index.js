@@ -10,10 +10,18 @@ import errorMiddleware from "./middleware/error-middleware.js";
 const PORT = process.env.PORT || 5000;
 
 const corsOptions = {
-  origin: "http://localhost:5173",
-  methods: "GET ,POST ,PUT ,DELETE, PATCH , HEAD",
-  Credentials: true,
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      "http://localhost:5173",
+      "https://portfolio-back-iota.vercel.app/",
+    ];
+    const isAllowed = allowedOrigins.includes(origin);
+    callback(null, isAllowed ? origin : false);
+  },
+  methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
+  credentials: true,
 };
+
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/api/auth", authRoute);
@@ -21,6 +29,7 @@ app.use("/api/form", contactRoute);
 app.use("/api/admin", adminRoute, contactRoute);
 
 app.use(errorMiddleware);
+
 connectDb().then(() => {
   app.listen(PORT, () => {
     console.log(`Server Started at ${PORT}`);
