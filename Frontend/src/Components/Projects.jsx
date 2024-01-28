@@ -1,8 +1,9 @@
 import project1 from "../assets/project1.png";
 import project2 from "../assets/project2.png";
 import project3 from "../assets/project3.png";
-
+import { useAuth } from "../store/auth";
 const Projects = () => {
+  const { isDarkMode } = useAuth();
   const projects = [
     {
       img: project1,
@@ -28,14 +29,19 @@ const Projects = () => {
   ];
 
   return (
-    <section className="bg-primary text-white px-5 py-32" id="projects">
+    <section
+      className={`${
+        isDarkMode ? "text-white" : "bg-white text-black "
+      }  py-32 px-5  animate__animated animate__fadeIn capitalize`}
+      id="projects"
+    >
       <div className="container mx-auto grid md:grid-cols-2 items-center md:justify-between capitalize">
         <div className="about-info mb-5">
           <h2 className="text-3xl font-bold mb-5 border-b-[5px] w-[180px] border-indigo-600 pb-2">
             Projects
           </h2>
 
-          <p className="pb-5">
+          <p className="pb-5 text-base">
             These are some of my best projects. I have built these with React,
             MERN and Tailwind CSS. Check them out.
           </p>

@@ -1,14 +1,24 @@
+import { useAuth } from "../store/auth";
+
 const Footer = () => {
+  const { isDarkMode } = useAuth();
+  const isAdminRoute = location.pathname.startsWith("/admin");
   return (
     <>
-      <footer className="bg-gray-900 text-white py-2  overflow-hidden border-t border-gray-800  w-full ">
-        <div className="text-center ">
-          <p>
-            &copy; {new Date().getFullYear()} Praveen Singh. All Rights
-            Reserved.
-          </p>
-        </div>
-      </footer>
+      {!isAdminRoute && (
+        <footer
+          className={` ${
+            isDarkMode ? "text-white" : "bg-white text-black "
+          }  py-2 font-bold w-full overflow-hidden border-t`}
+        >
+          <div className="text-center ">
+            <p>
+              &copy; {new Date().getFullYear()} Praveen Singh. All Rights
+              Reserved.
+            </p>
+          </div>
+        </footer>
+      )}
     </>
   );
 };

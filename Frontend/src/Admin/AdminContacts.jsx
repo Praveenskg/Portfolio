@@ -6,11 +6,11 @@ import { toast } from "react-toastify";
 
 function AdminContacts() {
   const [contacts, setContacts] = useState([]);
-  const { authorizationToken, user: isLoggedIn } = useAuth();
+  const { authorizationToken, user: isLoggedIn, API } = useAuth();
 
   const getAllContactsData = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/admin/contacts", {
+      const response = await fetch(`${API}/api/admin/contacts`, {
         method: "GET",
         headers: {
           Authorization: authorizationToken,
