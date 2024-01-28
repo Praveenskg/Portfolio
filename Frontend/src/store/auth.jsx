@@ -6,7 +6,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const authorizationToken = `Bearer ${token}`;
-  const API = "https://portfolio-back-iota.vercel.app/";
+  const API = "https://portfolio-back-iota.vercel.app";
 
   const StoreToken = (serverToken) => {
     setToken(serverToken);

@@ -9,20 +9,26 @@ import connectDb from "./utils/db.js";
 import errorMiddleware from "./middleware/error-middleware.js";
 const PORT = process.env.PORT || 5000;
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://portfolio-praveenskg.vercel.app",
+];
+
 const corsOptions = {
   origin: (origin, callback) => {
-    const allowedOrigins = [
-      "http://localhost:5173",
-      "https://portfolio-praveenskg.vercel.app",
-    ];
-    const isAllowed = allowedOrigins.includes(origin);
-    callback(null, isAllowed ? origin : false);
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
   },
-  methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
+  methods: "GET, POST, PUT, DELETE, PATCH",
+  allowedHeaders: "Content-Type, Authorization",
   credentials: true,
 };
 
 app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use("/api/auth", authRoute);
 app.use("/api/form", contactRoute);
