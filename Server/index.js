@@ -13,7 +13,7 @@ const corsOptions = {
   origin: (origin, callback) => {
     const allowedOrigins = [
       "http://localhost:5173",
-      "https://portfolio-back-iota.vercel.app/",
+      "https://portfolio-praveenskg.vercel.app/",
     ];
     const isAllowed = allowedOrigins.includes(origin);
     callback(null, isAllowed ? origin : false);
