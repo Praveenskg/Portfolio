@@ -11,7 +11,7 @@ const Hero = () => {
         }  py-32 h-screen `}
       >
         <div className="container mx-auto grid md:grid-cols-2 items-center justify-center md:justify-between">
-          <div className="hero-info pb-5 md:pb-0 animate__animated animate__fadeInLeft">
+          <div className="hero-info pb-5 md:pb-0 animate__animated animate__fadeInLeft mx-2">
             <h1 className="text-4xl lg:text-6xl ">
               Hi, <br />I am <span className="text-accent">P</span>raveen <br />
               Frontend Developer

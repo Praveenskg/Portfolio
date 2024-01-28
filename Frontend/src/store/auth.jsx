@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
   const isLoggedIn = !!token;
   const userAuthentication = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/auth/user", {
+      const response = await fetch(`${API}/api/auth/user`, {
         method: "GET",
         headers: {
           Authorization: authorizationToken,
