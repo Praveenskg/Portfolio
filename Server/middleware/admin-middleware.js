@@ -34,10 +34,16 @@ const adminMiddleware = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({ error: "Internal Server Error From Admin Middleware" });
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Unauthorized, Token Expired" });
+    } else if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({ message: "Unauthorized, Invalid Token" });
+    } else {
+      console.error(error);
+      res
+        .status(500)
+        .json({ error: "Internal Server Error From Admin Middleware" });
+    }
   }
 };
 

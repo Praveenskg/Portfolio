@@ -34,6 +34,7 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
 });
+
 // Secure Password Using Bcrypt Pre Method
 userSchema.pre("save", async function (next) {
   const user = this;
@@ -55,7 +56,7 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-// Json Web Token
+// Json Web Token Generate
 userSchema.methods.generateToken = async function () {
   try {
     return jwt.sign(
@@ -66,7 +67,7 @@ userSchema.methods.generateToken = async function () {
       },
       process.env.JWT_SECRETE_KEY,
       {
-        expiresIn: "30d",
+        expiresIn: "7d",
       }
     );
   } catch (error) {
