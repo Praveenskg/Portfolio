@@ -13,7 +13,7 @@ const defaultContact = {
 const Contact = () => {
   const [contact, setContact] = useState(defaultContact);
   const [userData, setUserData] = useState(true);
-  const { user, isDarkMode } = useAuth();
+  const { user, isDarkMode, API } = useAuth();
 
   if (userData && user) {
     setContact({
@@ -37,7 +37,7 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/api/form/contact", {
+      const response = await fetch(`${API}/api/form/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
