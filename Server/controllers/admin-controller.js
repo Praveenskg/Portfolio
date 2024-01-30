@@ -25,6 +25,26 @@ const getContact = async (req, res, next) => {
   }
 };
 
+const getContactUser = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const data = await Contact.findOne({ _id: id });
+    console.log(data);
+    return res.status(200).json(data);
+  } catch (error) {
+    next(error);
+  }
+};
+const deleteContactUser = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    await User.deleteOne({ _id: id });
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    next();
+  }
+};
 const deleteUserById = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -35,6 +55,7 @@ const deleteUserById = async (req, res, next) => {
     next();
   }
 };
+
 const getUserById = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -44,6 +65,7 @@ const getUserById = async (req, res, next) => {
     next(error);
   }
 };
+
 const updateUserById = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -59,10 +81,13 @@ const updateUserById = async (req, res, next) => {
     next(error);
   }
 };
+
 export default {
   getAllUsers,
   getContact,
   deleteUserById,
   getUserById,
   updateUserById,
+  getContactUser,
+  deleteContactUser,
 };

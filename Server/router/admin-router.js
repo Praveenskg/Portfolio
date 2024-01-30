@@ -19,5 +19,11 @@ router
 router
   .route("/contacts")
   .get(adminMiddleware, authMiddleware, adminController.getContact);
+router
+  .route("/contacts/:id")
+  .get(adminMiddleware, authMiddleware, adminController.getContactUser);
+router
+  .route("/contacts/delete/:id")
+  .delete(adminMiddleware, authMiddleware, adminController.deleteContactUser);
 
 export default router;
