@@ -6,7 +6,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const authorizationToken = `Bearer ${token}`;
-  const API = "https://portfolio-back-iota.vercel.app";
+  const API = "http://localhost:5000";
 
   const StoreToken = (serverToken) => {
     setToken(serverToken);
@@ -37,20 +37,21 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    userAuthentication();
-  }, []);
-
   const [isDarkMode, setIsDarkMode] = useState(
-    () => localStorage.getItem("theme") === "dark"
+    window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
   );
 
+  useEffect(() => {
+    userAuthentication();
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const listener = (e) => setIsDarkMode(e.matches);
+    mediaQuery.addEventListener("change", listener);
+    return () => mediaQuery.removeEventListener("change", listener);
+  }, []);
+
   const toggleDarkMode = () => {
-    setIsDarkMode((prevMode) => {
-      const newMode = !prevMode;
-      localStorage.setItem("theme", newMode ? "light" : "dark");
-      return newMode;
-    });
+    setIsDarkMode((prevMode) => !prevMode);
   };
 
   return (

@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import Breadcrumb from "./Breadcrumb";
 import { useAuth } from "../store/auth";
 
 function Dashboard() {
   const [users, setUsers] = useState([]);
   const [messages, setMessages] = useState([]);
-  const { authorizationToken, API } = useAuth();
-
+  const { authorizationToken, API, isDarkMode } = useAuth();
   const getAllUsersData = async () => {
     try {
       const response = await fetch(`${API}/api/admin/users`, {
@@ -22,6 +20,7 @@ function Dashboard() {
       console.log(error);
     }
   };
+
   const getAllContactsData = async () => {
     try {
       const response = await fetch(`${API}/api/admin/contacts`, {
@@ -41,57 +40,199 @@ function Dashboard() {
     getAllUsersData();
     getAllContactsData();
   }, []);
+
   return (
     <>
-      <Breadcrumb />
-      <div className="mx-3">
-        <div className="max-h-96 overflow-y-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-900">
-              <tr className="text-base text-center">
-                <th className="sm:px-2 md:px-4 lg:px-6 py-3.5 text-left text-sm font-normal ">
-                  <span>Name</span>
-                </th>
-                <th className="sm:px-2 md:px-4 lg:px-6 py-3.5 text-left text-sm font-normal ">
-                  Email
-                </th>
-                <th className="sm:px-2 md:px-4 lg:px-6 py-3.5 text-left text-sm font-normal ">
-                  Phone
-                </th>
-                <th className="sm:px-2 md:px-4 lg:px-6 py-3.5 text-left text-sm font-normal ">
-                  Type
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {users.map((user, index) => (
-                <tr key={index}>
-                  <td className="whitespace-nowrap sm:px-2 md:px-4 lg:px-6 py-4">
-                    {user.username}
-                  </td>
-                  <td className="whitespace-nowrap sm:px-2 md:px-4 lg:px-6 py-4">
-                    {user.email}
-                  </td>
-                  <td className="whitespace-nowrap sm:px-2 md:px-4 lg:px-6 py-4">
-                    {user.phone}
-                  </td>
-                  <td className="whitespace-nowrap sm:px-2 md:px-4 lg:px-6 py-4">
-                    <span
-                      className={`${
-                        user.isAdmin
-                          ? "rounded-full bg-green-100 px-2 text-xs font-semibold  text-green-800"
-                          : "rounded-full bg-red-200 px-2 text-xs font-semibold  text-red-800"
-                      }`}
-                    >
-                      {user.isAdmin ? "Admin" : "User"}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <section
+        className={`px-4 mx-auto max-w-full ${
+          isDarkMode ? "bg-gray-800 text-white " : "bg-gray-100  text-black"
+        }`}
+      >
+        <h2
+          className={`text-lg font-medium ${
+            isDarkMode ? "text-white" : "text-gray-800"
+          }`}
+        >
+          Users
+        </h2>
+        <div className="flex flex-col mt-2 ">
+          <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+              <div
+                className={`overflow-hidden border border-gray-200 ${
+                  isDarkMode ? "dark:border-gray-700" : ""
+                } md:rounded-lg`}
+              >
+                <table
+                  className={`min-w-full divide-y divide-gray-200 ${
+                    isDarkMode ? "divide-gray-700" : ""
+                  }`}
+                >
+                  <thead
+                    className={` ${
+                      isDarkMode ? "bg-gray-700" : " bg-gray-200"
+                    }`}
+                  >
+                    <tr>
+                      <th
+                        scope="col"
+                        className="py-3.5 px-8 text-sm font-normal text-left"
+                      >
+                        Name
+                      </th>
+                      <th
+                        scope="col"
+                        className="py-3.5 px-12 text-sm font-normal text-left"
+                      >
+                        Type
+                      </th>
+                      <th
+                        scope="col"
+                        className="py-3.5 px-4 text-sm font-normal text-left"
+                      >
+                        Phone
+                      </th>
+                      <th
+                        scope="col"
+                        className="py-3.5 px-4 text-sm font-normal text-left"
+                      >
+                        Email
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    className={` divide-y divide-gray-200 ${
+                      isDarkMode ? "divide-gray-700" : ""
+                    }`}
+                  >
+                    {users.slice(0, 5).map((user, index) => (
+                      <tr key={index}>
+                        <td className="px-4 py-4 text-sm font-medium whitespace-nowrap ">
+                          <div>
+                            <h2>{user.username}</h2>
+                          </div>
+                        </td>
+                        <td className="px-12 py-4 text-sm font-medium whitespace-nowrap">
+                          <div
+                            className={`inline px-3 py-1 text-sm font-normal rounded-full ${
+                              user.isAdmin
+                                ? "text-emerald-500 bg-emerald-100/60"
+                                : "text-red-500 bg-red-100/60"
+                            } gap-x-2 ${
+                              isDarkMode ? "bg-gray-50" : "bg-gray-300"
+                            }`}
+                          >
+                            {user.isAdmin ? "Admin" : "User"}
+                          </div>
+                        </td>
+                        <td className="px-4 py-4 text-sm whitespace-nowrap">
+                          <div>
+                            <h4>{user.phone}</h4>
+                          </div>
+                        </td>
+                        <td className="px-4 py-4 text-sm whitespace-nowrap">
+                          <a href={`mailto:${user.email}`}>{user.email}</a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+        <hr className="mt-3" />
+        <h2
+          className={`text-lg font-medium ${
+            isDarkMode ? "text-white" : "text-gray-800"
+          }`}
+        >
+          Contacts
+        </h2>
+        <div className="flex flex-col mt-2">
+          <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+              <div
+                className={`overflow-hidden border border-gray-200 ${
+                  isDarkMode ? "dark:border-gray-700" : ""
+                } md:rounded-lg`}
+              >
+                <table
+                  className={`min-w-full divide-y divide-gray-200 ${
+                    isDarkMode ? "divide-gray-700" : ""
+                  }`}
+                >
+                  <thead
+                    className={` ${
+                      isDarkMode ? "bg-gray-700" : " bg-gray-200"
+                    }`}
+                  >
+                    <tr>
+                      <th
+                        scope="col"
+                        className="py-3.5 px-8 text-sm font-normal text-left"
+                      >
+                        Name
+                      </th>
+                      <th
+                        scope="col"
+                        className="py-3.5 px-20  text-sm font-normal text-left"
+                      >
+                        Email
+                      </th>
+                      <th
+                        scope="col"
+                        className="py-3.5 px-8 text-sm font-normal text-left"
+                      >
+                        Phone
+                      </th>
+                      <th
+                        scope="col"
+                        className="py-3.5 px-8 text-sm font-normal text-left"
+                      >
+                        Message
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    className={` divide-y divide-gray-200 ${
+                      isDarkMode ? "dark:divide-gray-700" : ""
+                    }`}
+                  >
+                    {messages.slice(0, 10).map((user, index) => (
+                      <tr key={index}>
+                        <td className="px-4 py-4 text-sm font-medium whitespace-nowrap">
+                          <div>{user.username}</div>
+                        </td>
+                        <td className="px-12 py-4 text-sm font-medium whitespace-nowrap">
+                          <div
+                            className={`inline px-3 py-1 text-sm font-normal rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 
+                              ${isDarkMode ? "bg-gray-50" : "bg-gray-100"}`}
+                          >
+                            <a href={`mailto:${user.email}`}>{user.email}</a>
+                          </div>
+                        </td>
+                        <td className="px-4 py-4 text-sm whitespace-nowrap">
+                          <div>
+                            <a href={`tel:+91${user.phone}`}>{user.phone}</a>
+                          </div>
+                        </td>
+                        <td className="px-4 py-4 text-sm whitespace-nowrap">
+                          <div className="flex items-center">
+                            {user.message.length > 50
+                              ? `${user.message.substring(0, 50)}...`
+                              : user.message}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

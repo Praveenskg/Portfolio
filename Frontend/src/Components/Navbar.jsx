@@ -32,16 +32,7 @@ const Navbar = () => {
     },
   ];
 
-  const isLoginRoute = location.pathname === "/login";
   const isAdminRoute = location.pathname.startsWith("/admin");
-
-  const handleLogout = async () => {
-    toast.success("Logout successful");
-    setTimeout(() => {
-      Logout();
-      navigate("/login");
-    }, 1000);
-  };
 
   return (
     <>

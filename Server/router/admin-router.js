@@ -5,8 +5,12 @@ import authMiddleware from "../middleware/auth-middleware.js";
 import adminMiddleware from "../middleware/admin-middleware.js";
 
 router
+  .route("/user")
+  .get(adminMiddleware, authMiddleware, adminController.getUser);
+router
   .route("/users")
   .get(adminMiddleware, authMiddleware, adminController.getAllUsers);
+
 router
   .route("/users/:id")
   .get(adminMiddleware, authMiddleware, adminController.getUserById);

@@ -42,15 +42,18 @@ function Login() {
       if (response.ok) {
         StoreToken(res_data.data.token);
         toast.success("Login successful");
-        console.log("User after login:", user);
+        console.log("User after login:", user); // Log user object here
+
+        // Check if isAdmin property is correctly set
+        console.log("Is Admin:", user.isAdmin);
+
         setUserData({
           email: "",
           password: "",
         });
-
         setTimeout(() => {
           if (user.isAdmin === true) {
-            window.location.href = "/admin/dashboard";
+            window.location.href = "/admin";
           } else {
             window.location.href = "/";
           }

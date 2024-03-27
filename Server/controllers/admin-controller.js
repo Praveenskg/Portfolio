@@ -1,6 +1,15 @@
 import User from "../models/user-model.js";
 import Contact from "../models/contact-model.js";
 
+const getUser = async (req, res, next) => {
+  try {
+    const user = req.user;
+    res.status(200).json({ user });
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getAllUsers = async (req, res, next) => {
   try {
     const users = await User.find({}, { password: 0 });
@@ -38,13 +47,19 @@ const getContactUser = async (req, res, next) => {
 const deleteContactUser = async (req, res, next) => {
   try {
     const id = req.params.id;
-    await User.deleteOne({ _id: id });
-    res.status(200).json({ message: "User deleted successfully" });
+    const deletedContact = await Contact.deleteOne({ _id: id });
+
+    if (!deletedContact.deletedCount) {
+      return res.status(404).json({ message: "Contact not found" });
+    }
+
+    res.status(200).json({ message: "Contact deleted successfully" });
   } catch (error) {
     console.log(error);
-    next();
+    next(error);
   }
 };
+
 const deleteUserById = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -83,6 +98,7 @@ const updateUserById = async (req, res, next) => {
 };
 
 export default {
+  getUser,
   getAllUsers,
   getContact,
   deleteUserById,

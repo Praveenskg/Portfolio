@@ -1,20 +1,24 @@
 import React from "react";
 import { FaHome } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "../store/auth";
 
 function Breadcrumb() {
+  const { isDarkMode } = useAuth();
   const location = useLocation();
   const pathnames = location.pathname.split("/").filter((x) => x);
   return (
     <nav
-      className="flex w-full  items-left bg-gray-700 p-2 text-white capitalize"
+      className={`flex  items-left  ${
+        isDarkMode ? "bg-gray-700 text-white" : "text-black bg-gray-200"
+      } capitalize`}
       aria-label="Breadcrumb"
     >
       <ol className="inline-flex items-center space-x-0 md:space-x-3">
         <li className="inline-flex items-center">
           <Link
             to="/"
-            className="ml-1 inline-flex text-sm font-medium text-white hover:underline md:ml-2"
+            className="ml-1 inline-flex text-sm font-medium  hover:underline md:ml-2"
           >
             <FaHome />
           </Link>
@@ -25,15 +29,15 @@ function Breadcrumb() {
           return (
             <li key={name}>
               <div className="flex items-center">
-                <span className="mx-1 text-white">/</span>
+                <span className="mx-1 ">/</span>
                 {isLast ? (
-                  <span className="ml-1 text-sm font-medium text-white  md:ml-2">
+                  <span className="ml-1 text-sm font-medium  md:ml-2">
                     {name}
                   </span>
                 ) : (
                   <Link
                     to={routeTo}
-                    className="ml-1 text-sm font-medium text-white  md:ml-2"
+                    className="ml-1 text-sm font-medium  md:ml-2"
                   >
                     {name}
                   </Link>

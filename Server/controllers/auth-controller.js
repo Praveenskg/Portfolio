@@ -24,7 +24,14 @@ const Register = async (req, res) => {
     if (userExist) {
       return res.status(400).json({ message: "Email Already Exist" });
     }
-    const userCreated = await User.create({ username, email, phone, password });
+
+    const userCreated = await User.create({
+      username,
+      email,
+      phone,
+      password,
+      image: `https://api.dicebear.com/5.x/initials/svg?seed=${username}`,
+    });
     res.status(201).json({
       success: true,
       message: "Registration Successful",
@@ -56,6 +63,7 @@ const Login = async (req, res) => {
         data: {
           token: await userExist.generateToken(),
           userId: userExist._id.toString(),
+          isAdmin: userExist.isAdmin,
         },
       });
     } else {

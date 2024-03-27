@@ -12,20 +12,20 @@ const adminMiddleware = async (req, res, next) => {
 
   const jwtToken = token.replace("Bearer ", "").trim();
 
-  console.log("Received Token", token);
-
   try {
     const isVerified = jwt.verify(jwtToken, process.env.JWT_SECRETE_KEY);
 
     const userData = await User.findOne({ email: isVerified.email });
-    console.log("Received Token", token);
 
     if (!userData) {
       return res.status(401).json({ message: "Unauthorized, Invalid Token" });
     }
 
     if (!userData.isAdmin) {
-      return res.status(403).json({ message: "Forbidden, Not an Admin" });
+      return res.status(403).json({
+        message:
+          "Oops! Access Denied. You need to be an admin to perform this action.",
+      });
     }
 
     req.user = userData;

@@ -4,22 +4,38 @@ import { FaPhone, FaTwitter, FaGithub, FaLinkedin } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 
 function Profile() {
-  const { user } = useAuth();
+  const { user, isDarkMode } = useAuth();
 
   return (
-    <div className="flex flex-col flex-1 items-center justify-center h-screen">
-      <div className="w-full max-w-sm overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
+    <div
+      className={`flex flex-col flex-1 items-center justify-center h-screen ${
+        isDarkMode ? "dark:bg-gray-900" : ""
+      }`}
+    >
+      <div
+        className={`w-full max-w-sm overflow-hidden bg-white rounded-lg shadow-lg ${
+          isDarkMode ? "dark:bg-gray-800" : ""
+        }`}
+      >
         <img
           className="object-cover object-center w-full h-56"
           src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=2048&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="avatar"
         />
 
-        <div className="px-6 py-4">
-          <h1 className="text-xl font-semibold text-gray-800 dark:text-white">
+        <div className={`px-6 py-4 ${isDarkMode ? "dark:text-white" : ""}`}>
+          <h1
+            className={`text-xl font-semibold ${
+              isDarkMode ? "dark:text-white" : "text-gray-800"
+            }`}
+          >
             {user.username}
           </h1>
-          <p className="py-2 text-gray-700 dark:text-gray-400">
+          <p
+            className={`py-2 ${
+              isDarkMode ? "dark:text-gray-400" : "text-gray-700"
+            }`}
+          >
             Full Stack Developer &amp; UI / UX Designer, love Music. Author of
             Building UI.
           </p>
@@ -50,21 +66,33 @@ function Profile() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FaTwitter className="text-blue-500 hover:text-blue-700" />
+              <FaTwitter
+                className={`text-blue-500 hover:text-blue-700 ${
+                  isDarkMode ? "dark:text-white" : ""
+                }`}
+              />
             </a>
             <a
               href="https://github.com/praveenskg"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FaGithub className="text-blue-800 hover:text-gray-900" />
+              <FaGithub
+                className={`text-blue-800 hover:text-gray-900 ${
+                  isDarkMode ? "dark:text-white" : ""
+                }`}
+              />
             </a>
             <a
               href="https://www.linkedin.com/in/Praveenskg"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FaLinkedin className="text-blue-700 hover:text-blue-900" />
+              <FaLinkedin
+                className={`text-blue-700 hover:text-blue-900 ${
+                  isDarkMode ? "dark:text-white" : ""
+                }`}
+              />
             </a>
           </div>
         </div>
